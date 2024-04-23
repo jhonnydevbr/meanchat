@@ -5,6 +5,27 @@ class UsuarioController {
 
     public async cadastrar(req: Request, res: Response): Promise<Response>{
         const usuario = await usuarioModel.create(req.body);
+        const resposta = {
+            message: 'Usuário cadastrado com sucesso!',
+            _id:  usuario.id,
+            nome: usuario.nome
+        };
+        return res.json(resposta);
+    }
+
+    public async autenticar(req: Request, res: Response): Promise<Response> {
+        const { nome, senha } = req.body;
+
+        const usuario = await usuarioModel.findOne({ nome });
+        if(!usuario){
+            return res.status(400).send({ messagem: 'Usuário não encontrado!' })
+        }
+
+        const senhaValida = await usuario.compararSenhas(senha);
+        if(!senhaValida) {
+            return res.status(400).send({ messagem: 'Senha incorreta!' })
+        }
+
         return res.json(usuario);
     }
 

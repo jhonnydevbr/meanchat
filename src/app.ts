@@ -2,10 +2,10 @@ import express from 'express';
 import cors from 'cors';
 import mongoose, { mongo } from 'mongoose';
 import dotenv from 'dotenv';
+import usuarioRoute from './routes/usuario.route';
 dotenv.config();
 
 const MONGODBURI = process.env.MONGODB_URI ?? '';
-
 
 export class App {
 
@@ -15,9 +15,10 @@ export class App {
 
     constructor() {
         this.express = express();
-        this.listen();
         this.middlewares();
         this.database();
+        this.routes();
+        this.listen();
     }
 
     public getApp(): express.Application {
@@ -41,6 +42,10 @@ export class App {
         }).catch(err => {
             console.error('Erro ao conectar ao MongoDB:', err);
         });
+    }
+
+    private routes(): void {
+        this.express.use('/usuarios', usuarioRoute);
     }
 
 }
