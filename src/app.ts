@@ -3,6 +3,7 @@ import cors from 'cors';
 import mongoose, { mongo } from 'mongoose';
 import dotenv from 'dotenv';
 import usuarioRoute from './routes/usuario.route';
+import mensagemRoute from './routes/mensagem.route';
 dotenv.config();
 
 const MONGODBURI = process.env.MONGODB_URI ?? '';
@@ -46,6 +47,7 @@ export class App {
 
     private routes(): void {
         this.express.use('/usuarios', usuarioRoute);
+        this.express.use('/mensagens', mensagemRoute);
     }
 
 }
