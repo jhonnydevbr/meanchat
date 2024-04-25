@@ -8,7 +8,7 @@ class MensagemController {
         const mensagem = await mensagemModel.create(
             {
                 texto: req.body.texto,
-                remetente: '',
+                remetente: req.usuario._id,
                 destinatario: req.params.id
             }
         );
