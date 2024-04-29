@@ -30,6 +30,26 @@ class AuthMiddleware {
         }
     }
 
+    public async autorizarUsuarioByParams(req: Request, res: Response, next: NextFunction) {
+        
+
+        try {
+
+            const usuario = await usuarioModel.findById(req.params._id)
+
+            if (!usuario) {
+                return res.status(400).send({ message: 'Usuário não existe!' });
+            }
+
+            req.usuarioChat = usuario;
+
+            return next();
+
+        } catch (error) {
+            return res.status(401).send({ message: 'Usuário inválido!' });
+        }
+    }
+
 }
 
 export default new AuthMiddleware();
