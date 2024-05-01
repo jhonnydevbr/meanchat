@@ -32,6 +32,10 @@ class UsuarioController {
         });
     }
 
+    public getById(req: Request, res: Response): Response {
+        return res.json(req.usuarioChat);
+    }
+
 }
 
 export default new UsuarioController();

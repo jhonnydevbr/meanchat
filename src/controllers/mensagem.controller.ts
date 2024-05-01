@@ -25,9 +25,18 @@ class MensagemController {
                 { $and: [{ remetente: idUsuarioLogado }, { destinatario: idUsuarioChat }] },
                 { $and: [{ remetente: idUsuarioChat }, { destinatario: idUsuarioLogado }] },
             ]
+        })
+        .sort('createdAt');
+
+        const mensagensChat = mensagens.map(mensagem =>{
+            return {
+                texto: mensagem.texto,
+                createdAt: mensagem.createdAt,
+                isRemetente: mensagem.remetente == String(idUsuarioLogado)
+            }
         });
 
-        return res.json(mensagens)
+        return res.json(mensagensChat)
     }
 
 }
